@@ -13,5 +13,5 @@ spring:
       suffix: .html
       prefix: /
 
-mybatis:
-  mapper-locations: classpath*:mapper/*Mapper.xml
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml

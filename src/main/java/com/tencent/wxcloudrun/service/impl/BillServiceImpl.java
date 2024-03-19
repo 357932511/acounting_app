@@ -18,8 +18,12 @@ import java.util.List;
 public class BillServiceImpl extends ServiceImpl<BillMapper, Bill>
     implements BillService{
 
-    @Autowired
-    private BillMapper billMapper;
+
+    final BillMapper billMapper;
+    
+    public BillServiceImpl(@Autowired BillMapper billMapper) {
+        this.billMapper = billMapper;
+    }
 
     @Override
     public List<Bill> getBills() {
