@@ -12,6 +12,7 @@ import java.util.List;
 */
 public interface BillService extends IService<Bill> {
 
-    List<Bill> getBills();
+    List<Bill> getBills(String openId);
 
+    void putBill(Bill bill, String openId);
 }

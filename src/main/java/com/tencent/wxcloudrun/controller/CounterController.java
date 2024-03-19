@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
@@ -29,12 +31,34 @@ public class CounterController {
     this.logger = LoggerFactory.getLogger(CounterController.class);
   }
 
+  /**
+   * 获取账单
+   * @param request 请求
+   * @return API response json
+   */
   @GetMapping(value = "/api/bills")
-    ApiResponse getBills() {
-        logger.info("/api/bills get request");
-        List<Bill> bills = billService.getBills();
-        return ApiResponse.ok(bills);
+    ApiResponse getBills(HttpServletRequest request) {
+      //获取请求中的请求头
+      String openId = request.getHeader("openid");
+      logger.info("/api/bills get request openid: {}", openId);
+      List<Bill> bills = billService.getBills(openId);
+      return ApiResponse.ok(bills);
     }
+
+  /**
+   * 新增账单
+   * @param bill 账单
+   * @param request 请求
+   * @return API response json
+   */
+  @PostMapping(value = "/api/putBill")
+    ApiResponse putBill(@RequestBody Bill bill, HttpServletRequest request) {
+      logger.info("/api/putBill post request, bill: {}", bill);
+      String openId = request.getHeader("openid");
+      billService.putBill(bill, openId);
+      return ApiResponse.ok(bill);
+    }
+
 
 
 //  /**
