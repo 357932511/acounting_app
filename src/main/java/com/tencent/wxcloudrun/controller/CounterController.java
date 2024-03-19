@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
 import com.tencent.wxcloudrun.model.Bill;
+import com.tencent.wxcloudrun.model.vo.BillListVo;
 import com.tencent.wxcloudrun.service.BillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class CounterController {
       //获取请求中的请求头
       String openId = request.getHeader("openid");
       logger.info("/api/bills get request openid: {}", openId);
-      List<Bill> bills = billService.getBills(openId);
+      List<BillListVo> bills = billService.getBills(openId);
       return ApiResponse.ok(bills);
     }
 

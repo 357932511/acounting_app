@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.service;
 
 import com.tencent.wxcloudrun.model.Bill;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.wxcloudrun.model.vo.BillListVo;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 */
 public interface BillService extends IService<Bill> {
 
-    List<Bill> getBills(String openId);
+    List<BillListVo> getBills(String openId);
 
     void putBill(Bill bill, String openId);
 }

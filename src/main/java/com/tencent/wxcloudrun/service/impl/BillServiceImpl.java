@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.wxcloudrun.mapper.UserMapper;
 import com.tencent.wxcloudrun.model.Bill;
 import com.tencent.wxcloudrun.model.User;
+import com.tencent.wxcloudrun.model.vo.BillListVo;
 import com.tencent.wxcloudrun.service.BillService;
 import com.tencent.wxcloudrun.mapper.BillMapper;
 import org.slf4j.Logger;
@@ -36,7 +37,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill>
     }
 
     @Override
-    public List<Bill> getBills(String openId) {
+    public List<BillListVo> getBills(String openId) {
         return billMapper.getBills(null);
     }
 

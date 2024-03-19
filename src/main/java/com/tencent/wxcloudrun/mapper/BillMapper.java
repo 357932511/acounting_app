@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.mapper;
 
 import com.tencent.wxcloudrun.model.Bill;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tencent.wxcloudrun.model.vo.BillListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Mapper
 public interface BillMapper extends BaseMapper<Bill> {
 
-    List<Bill> getBills(@Param("openId") String openId);
+    List<BillListVo> getBills(@Param("openId") String openId);
 }
 
 
