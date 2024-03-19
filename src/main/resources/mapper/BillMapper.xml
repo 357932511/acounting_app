@@ -34,7 +34,7 @@
             <result property="note" column="note" jdbcType="VARCHAR"/>
             <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
             <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
-        </>
+        </collection>
     </resultMap>
 
     <select id="getBills" resultType="com.tencent.wxcloudrun.model.vo.BillListVo">
