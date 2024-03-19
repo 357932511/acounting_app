@@ -37,7 +37,7 @@
         </collection>
     </resultMap>
 
-    <select id="getBills" resultType="com.tencent.wxcloudrun.model.vo.BillListVo">
+    <select id="getBills" resultMap="getBillsMap">
         select DATE_FORMAT(bill.time, '%Y-%m-%d') as date,
         bill.bill_id,
         bill.user_id,
