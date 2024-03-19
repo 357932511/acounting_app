@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tencent.wxcloudrun.mapper.BillMapper">
+
+    <resultMap id="BaseResultMap" type="com.tencent.wxcloudrun.model.Bill">
+            <id property="billId" column="bill_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="paymentMethod" column="payment_method" jdbcType="VARCHAR"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="note" column="note" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        bill_id,user_id,amount,
+        type,payment_method,time,
+        note,created_at,is_deleted
+    </sql>
+</mapper>

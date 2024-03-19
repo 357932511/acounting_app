@@ -1,5 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
+import com.tencent.wxcloudrun.model.Bill;
+import com.tencent.wxcloudrun.service.BillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tencent.wxcloudrun.config.ApiResponse;
@@ -20,16 +22,24 @@ import java.util.List;
  * counter控制器
  */
 @RestController
-
 public class CounterController {
 
   final CounterService counterService;
   final Logger logger;
+  @Autowired
+  private BillService billService;
 
   public CounterController(@Autowired CounterService counterService) {
     this.counterService = counterService;
     this.logger = LoggerFactory.getLogger(CounterController.class);
   }
+
+  @GetMapping(value = "/api/bills")
+    ApiResponse getBills() {
+        logger.info("/api/bills get request");
+        List<Bill> bills = billService.getBills();
+        return ApiResponse.ok(bills);
+    }
 
 
   /**
