@@ -38,7 +38,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill>
 
     @Override
     public List<BillListVo> getBills(String openId) {
-        return billMapper.getBills(null);
+        return billMapper.getBills(openId);
     }
 
     @Override
