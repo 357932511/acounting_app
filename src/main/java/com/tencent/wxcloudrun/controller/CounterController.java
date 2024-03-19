@@ -40,7 +40,7 @@ public class CounterController {
   @GetMapping(value = "/api/bills")
     ApiResponse getBills(HttpServletRequest request) {
       //获取请求中的请求头
-      String openId = request.getHeader("openid");
+      String openId = request.getHeader("x-wx-openid");
       logger.info("/api/bills get request openid: {}", openId);
       List<BillListVo> bills = billService.getBills(openId);
       return ApiResponse.ok(bills);
@@ -55,7 +55,7 @@ public class CounterController {
   @PostMapping(value = "/api/putBill")
     ApiResponse putBill(@RequestBody Bill bill, HttpServletRequest request) {
       logger.info("/api/putBill post request, bill: {}", bill);
-      String openId = request.getHeader("openid");
+      String openId = request.getHeader("x-wx-openid");
       billService.putBill(bill, openId);
       return ApiResponse.ok(bill);
     }
