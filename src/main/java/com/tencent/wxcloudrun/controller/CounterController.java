@@ -35,7 +35,7 @@ public class CounterController {
    * @return API response json
    */
   @GetMapping(value = "/bills")
-    ApiResponse getBills(@RequestHeader("\"x-wx-openid\"")String openId) {
+    ApiResponse getBills(@RequestHeader("x-wx-openid")String openId) {
       //获取请求中的请求头
       logger.info("/api/bills get request openid: {}", openId);
       List<BillListVo> bills = billService.getBills(openId);
@@ -49,7 +49,7 @@ public class CounterController {
    * @return API response json
    */
   @PutMapping(value = "/bills/{id}")
-    ApiResponse putBill(@RequestBody Bill bill, @PathVariable("id") int billId, @RequestHeader("\"x-wx-openid\"")String openId) {
+    ApiResponse putBill(@RequestBody Bill bill, @PathVariable("id") int billId, @RequestHeader("x-wx-openid")String openId) {
       logger.info("/api/putBill post request, bill: {}", bill);
       bill.setBillId(billId);
       billService.putBill(bill, openId);
