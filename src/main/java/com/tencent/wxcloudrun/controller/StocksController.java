@@ -93,10 +93,10 @@ public class StocksController {
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
-        querys.put("symbol", "sz000002");
-        querys.put("type", "1200");
-        querys.put("limit", "50");
-        querys.put("ma", "5");
+        querys.put("symbol", symbol);
+        querys.put("type", type);
+        querys.put("limit", limit.toString());
+        querys.put("ma", ma);
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
             System.out.println(response.toString());
