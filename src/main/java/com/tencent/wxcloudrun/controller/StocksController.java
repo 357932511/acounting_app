@@ -94,8 +94,8 @@ public class StocksController {
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
         querys.put("symbol", "sz000002");
-        querys.put("type", "5");
-        querys.put("limit", "10");
+        querys.put("type", "1200");
+        querys.put("limit", "50");
         querys.put("ma", "5");
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
@@ -117,6 +117,8 @@ public class StocksController {
         List<Map<String, Object>> dataList = (List<Map<String, Object>>) stockData.get("data");
 
         // 遍历data列表
+        double max = 0;
+        double min = 20000;
         for (Map<String, Object> dataItem : dataList) {
             // 提取day, open, close, low, high字段
             String day = (String) dataItem.get("day");
@@ -124,7 +126,14 @@ public class StocksController {
             Object close = dataItem.get("close");
             Object low = dataItem.get("low");
             Object high = dataItem.get("high");
-
+            double h = Double.parseDouble(high.toString());
+            double l = Double.parseDouble(low.toString());
+            if (max < h) {
+                max = h;
+            }
+            if (min > l){
+                min = l;
+            }
             // 添加到xAxisData
             xAxisData.add(day);
             // 添加到seriesData
@@ -134,8 +143,9 @@ public class StocksController {
         // 构建返回的Map对象
         Map<String, Object> option = new HashMap<>();
         option.put("xAxis", new JSONObject().fluentPut("data", xAxisData));
+        // TODO min和max需要根据实际map来定义
         JSONArray yAxis = new JSONArray();
-        yAxis.add(new JSONObject().fluentPut("type", "value").fluentPut("min", 8).fluentPut("max", 10));
+        yAxis.add(new JSONObject().fluentPut("type", "value").fluentPut("min", min).fluentPut("max", max));
         option.put("yAxis", yAxis);
         JSONArray series = new JSONArray();
         series.add(new JSONObject().fluentPut("type", "candlestick").fluentPut("data", seriesData));
