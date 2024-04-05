@@ -1,5 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tencent.wxcloudrun.config.ApiResponse;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +56,7 @@ public class StocksController {
                                      @RequestParam("page") Integer page,
                                      @RequestParam("limit") Integer limit,
                                      @RequestParam("market") String market) {
+        System.out.println("进入rank方法" + sort + asc + page + limit + market);
         String path = "/hs/rank";
         String method = "GET";
         Map<String, String> headers = new HashMap<String, String>();
@@ -63,12 +67,15 @@ public class StocksController {
         querys.put("page", page.toString());
         querys.put("limit", limit.toString());
         querys.put("market", market);
+        System.out.println(appcode);
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
             String entity = EntityUtils.toString(response.getEntity());
+            System.out.println(entity);
             Map map = objectMapper.readValue(entity, Map.class);
             return ApiResponse.ok(map);
         } catch (Exception e) {
+            System.out.println("进入catch");
             e.printStackTrace();
             return ApiResponse.error("获取股票信息失败");
         }
@@ -94,11 +101,46 @@ public class StocksController {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
             System.out.println(response.toString());
             Map map = objectMapper.readValue(EntityUtils.toString(response.getEntity()), Map.class);
-            return ApiResponse.ok(map);
+            Map<String, Object> option = convertToOption(map);
+            return ApiResponse.ok(option);
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error("获取股票K线图失败");
         }
+    }
+
+    private static Map<String, Object> convertToOption(Map<String, Object> stockData) {
+        List<String> xAxisData = new ArrayList<>();
+        JSONArray seriesData = new JSONArray();
+
+        // 从Map中获取data列表
+        List<Map<String, Object>> dataList = (List<Map<String, Object>>) stockData.get("data");
+
+        // 遍历data列表
+        for (Map<String, Object> dataItem : dataList) {
+            // 提取day, open, close, low, high字段
+            String day = (String) dataItem.get("day");
+            Object open = dataItem.get("open");
+            Object close = dataItem.get("close");
+            Object low = dataItem.get("low");
+            Object high = dataItem.get("high");
+
+            // 添加到xAxisData
+            xAxisData.add(day);
+            // 添加到seriesData
+            seriesData.add(new Object[]{open, close, low, high});
+        }
+
+        // 构建返回的Map对象
+        Map<String, Object> option = new HashMap<>();
+        option.put("xAxis", new JSONObject().fluentPut("data", xAxisData));
+        option.put("yAxis", new JSONObject());
+        JSONArray objects = new JSONArray();
+        objects.add(new JSONObject().fluentPut("type", "candlestick").fluentPut("data", seriesData));
+        System.out.println(objects);
+        option.put("series", objects);
+
+        return option;
     }
 
 }
