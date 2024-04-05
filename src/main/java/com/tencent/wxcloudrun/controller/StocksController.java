@@ -134,11 +134,13 @@ public class StocksController {
         // 构建返回的Map对象
         Map<String, Object> option = new HashMap<>();
         option.put("xAxis", new JSONObject().fluentPut("data", xAxisData));
-        option.put("yAxis", new JSONObject());
-        JSONArray objects = new JSONArray();
-        objects.add(new JSONObject().fluentPut("type", "candlestick").fluentPut("data", seriesData));
-        System.out.println(objects);
-        option.put("series", objects);
+        JSONArray yAxis = new JSONArray();
+        yAxis.add(new JSONObject().fluentPut("type", "value").fluentPut("min", 8).fluentPut("max", 10));
+        option.put("yAxis", yAxis);
+        JSONArray series = new JSONArray();
+        series.add(new JSONObject().fluentPut("type", "candlestick").fluentPut("data", seriesData));
+        System.out.println(series);
+        option.put("series", series);
 
         return option;
     }
